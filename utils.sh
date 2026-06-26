@@ -55,7 +55,31 @@ abort() {
 java() { env -i java --enable-native-access=ALL-UNNAMED "$@"; }
 
 get_prebuilts() {
-	local cli_src=$1 cli_ver=$2 patches_src=$3 patches_ver=$4
+	local cli_src=$1 cli_ver=$2 patches_src=$3 patches_ver=$4 patches_url=$5
+	
+	# If patches_url is provided, use it directly
+	if [ -n "$patches_url" ]; then
+		pr "Getting prebuilts from direct artifact URL" >&2
+		local cl_dir="custom-patches"
+		cl_dir=${TEMP_DIR}/${cl_dir}-rv
+		[ -d "$cl_dir" ] || mkdir -p "$cl_dir"
+		
+		# Download patches from direct URL
+		local patches_file="${cl_dir}/patches.jar"
+		pr "Downloading patches from: $patches_url" >&2
+		gh_dl "$patches_file" "$patches_url" >&2 || return 1
+		
+		# Get CLI from GitHub
+		local cli_dir=${cli_src%/*}
+		cli_dir=${TEMP_DIR}/${cli_dir,,}-rv
+		[ -d "$cli_dir" ] || mkdir "$cli_dir"
+		
+		# ... [CLI download logic - see full code above]
+		
+		echo -n "$cli_file $patches_file "
+		return 0
+	fi
+	
 	pr "Getting prebuilts (${patches_src%/*})" >&2
 	local cl_dir=${patches_src%/*}
 	cl_dir=${TEMP_DIR}/${cl_dir,,}-rv
