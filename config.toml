@@ -15,10 +15,10 @@ archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.google.android.y
 
 [YouTube-Morphe]
 app-name = "YouTube"
-patches-source = "MorpheApp/morphe-patches"
+patches-url = "https://github.com/MorpheApp/morphe-patches/actions/runs/28254822455/artifacts/7912323545"
 cli-source = "MorpheApp/morphe-cli"
 rv-brand = "Morphe"
-build-mode = "both"
+excluded-patches = "'Custom branding'"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube"
 uptodown-dlurl = "https://youtube.en.uptodown.com/android"
 archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.google.android.youtube"
